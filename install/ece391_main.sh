@@ -122,8 +122,8 @@ config_samba() {
 ### END ECE391 CONFIG ###
 EOF
 
-    ln -s ${share_dir} ${HOME}/Desktop/WORK_FOLDER
-    ln -s ${share_dir} ${HOME}/WORK_FOLDER
+    ln -s ${share_dir}/work ${HOME}/Desktop/WORK_FOLDER
+    ln -s ${share_dir}/work ${HOME}/WORK_FOLDER
 }
 
 config_ssh() { 
