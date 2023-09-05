@@ -3,6 +3,7 @@
 set -e
 
 sudo service ssh start && sudo service smbd start
+code-server &
 
 # should also source $STARTUPDIR/generate_container_user
 source $HOME/.bashrc

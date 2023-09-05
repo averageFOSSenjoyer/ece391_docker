@@ -121,6 +121,9 @@ config_samba() {
   min protocol = NT1
 ### END ECE391 CONFIG ###
 EOF
+
+    ln -s ${share_dir} ${HOME}/Desktop/WORK_FOLDER
+    ln -s ${share_dir} ${HOME}/WORK_FOLDER
 }
 
 config_ssh() { 

@@ -18,6 +18,7 @@ ENV HOME=/home/user \
     VNC_PW=ece391 \
     VNC_VIEW_ONLY=false \
     SSH_PORT=37391 \
+    VSCODE_SERVER_PORT=8080 \
     ECE391_DIR=/home/user/ece391 \ 
     IMAGE_DIR=/home/user/ece391/images_DO_NOT_TOUCH
 
@@ -62,6 +63,9 @@ RUN $INST_SCRIPTS/ece391_main.sh
 ADD ./work $ECE391_DIR/smb_share/work
 RUN $INST_SCRIPTS/work_dir_perm.sh
 ADD ./tux_emulator_linux $HOME/Desktop/tux_emulator
+
+RUN $INST_SCRIPTS/vscode_server.sh
+EXPOSE $VSCODE_SERVER_PORT
 
 WORKDIR $HOME
 
