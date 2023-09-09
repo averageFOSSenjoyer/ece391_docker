@@ -1,0 +1,12 @@
+FROM local/ece391_docker_arm:1_0
+
+ADD ./test.qcow $HOME/ece391/smb_share/images_DO_NOT_TOUCH/test.qcow
+
+ADD ./work_compiled $HOME/ece391/smb_share/work
+
+ADD ./build_compiled.zip $HOME/ece391/smb_share/work/build.zip
+
+WORKDIR $HOME
+
+ENTRYPOINT ["/dockerstartup/startup.sh"]
+CMD ["--wait"]

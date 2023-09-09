@@ -1,4 +1,4 @@
-FROM debian:11
+FROM arm64v8/debian:11
 
 ENV DISPLAY=:1 \
     VNC_PORT=5901 \
@@ -21,8 +21,6 @@ ENV HOME=/home/user \
     VSCODE_SERVER_PORT=8080 \
     ECE391_DIR=/home/user/ece391 \ 
     IMAGE_DIR=/home/user/ece391/images_DO_NOT_TOUCH
-
-EXPOSE $SSH_PORT
 
 WORKDIR $HOME
 
@@ -69,10 +67,9 @@ ADD ./tux_emulator_linux $HOME/Desktop/tux_emulator
 RUN $INST_SCRIPTS/vscode_server.sh
 EXPOSE $VSCODE_SERVER_PORT
 
-# (FIX) script corrupts kernel
 # RUN $INST_SCRIPTS/build_kernel.sh
 
-WORKDIR $HOME
+# WORKDIR $HOME
 
 ENTRYPOINT ["/dockerstartup/startup.sh"]
 CMD ["--wait"]

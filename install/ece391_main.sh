@@ -8,7 +8,7 @@ share_dir=${script_dir}/smb_share
 work_dir=${share_dir}/work
 kernel_path=${work_dir}/source/linux-2.6.22.5/bzImage
 
-install_qemu() {
+install_qemu_v1_5() {
     echo "[*] Installing QEMU"
 
     echo "[*] Downloading QEMU"
@@ -36,12 +36,46 @@ install_qemu() {
         # Only compile for i386 arch to speed up compile time
         # Output directory will be in ${qemu_dir}
         # Make sure we're using python2 for systems like Arch where python points to python3
-        ./configure --target-list=i386-softmmu --prefix="${qemu_dir}" --python=python2
+        
+        if [[ $(uname -m) == "x86_64" ]]
+        then
+            ./configure --target-list=i386-softmmu --prefix="${qemu_dir}" --python=python2
+        else
+            ./configure --target-list=i386-softmmu --prefix="${qemu_dir}" --python=python2 --enable-tcg-interpreter
+        fi
+
         make -j 8
 
         echo "[*] Installing QEMU"
         make install
     )
+}
+
+install_qemu_v2() {
+    echo "[*] Installing QEMU"
+
+    echo "[*] Downloading QEMU"
+    curl -L "https://download.qemu.org/qemu-2.0.0.tar.bz2" -o "/tmp/qemu-2.0.0.tar.bz2"
+    tar xfj "/tmp/qemu-2.0.0.tar.bz2" -C "/tmp"
+
+    # Need to cd into the directory or else make fails
+    # Run this in a subshell so we return to our old directory after
+    cd "/tmp/qemu-2.0.0"
+    echo "[*] Compiling QEMU (this may take a few minutes)"
+
+    # Another weird workaround
+    export ARFLAGS="rv"
+    export TERM=xterm
+
+    # Only compile for i386 arch to speed up compile time
+    # Output directory will be in ${qemu_dir}
+    # Make sure we're using python2 for systems like Arch where python points to python3
+    ./configure --target-list=i386-softmmu --prefix="${qemu_dir}" --python=python2
+    
+    make -j 8
+
+    echo "[*] Installing QEMU"
+    make install
 }
 
 create_qcow() {
@@ -159,7 +193,16 @@ EOF
     sudo chmod 600 ~/.ssh/*
 }
 
-install_qemu
+# if [[ $(uname -m) == "x86_64" ]]
+# then
+#     echo "Compiling for x86"
+#     install_qemu_v1_5
+# else
+#     echo "Compiling for arm"
+#     install_qemu_v2
+# fi
+
+install_qemu_v1_5
 create_qcow
 create_shortcuts
 config_samba

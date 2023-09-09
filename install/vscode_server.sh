@@ -3,8 +3,15 @@ set -e
 
 VERSION=4.16.1
 
-curl -fOL https://github.com/coder/code-server/releases/download/v$VERSION/code-server_${VERSION}_amd64.deb
-sudo dpkg -i code-server_${VERSION}_amd64.deb
+if [[ $(uname -m) == "x86_64" ]]
+then
+    ARCH="amd64"
+else
+    ARCH="arm64"
+fi
+
+curl -fOL https://github.com/coder/code-server/releases/download/v$VERSION/code-server_${VERSION}_${ARCH}.deb
+sudo dpkg -i code-server_${VERSION}_${ARCH}.deb
 
 mkdir -p ~/.config/code-server/
 
