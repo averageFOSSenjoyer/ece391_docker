@@ -193,16 +193,15 @@ EOF
     sudo chmod 600 ~/.ssh/*
 }
 
-# if [[ $(uname -m) == "x86_64" ]]
-# then
-#     echo "Compiling for x86"
-#     install_qemu_v1_5
-# else
-#     echo "Compiling for arm"
-#     install_qemu_v2
-# fi
+if [[ $(uname -m) == "x86_64" ]]
+then
+    echo "Compiling for x86"
+    install_qemu_v1_5
+else
+    echo "Compiling for arm"
+    install_qemu_v2
+fi
 
-install_qemu_v1_5
 create_qcow
 create_shortcuts
 config_samba

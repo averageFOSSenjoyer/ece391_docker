@@ -22,6 +22,8 @@ ENV HOME=/home/user \
     ECE391_DIR=/home/user/ece391 \ 
     IMAGE_DIR=/home/user/ece391/images_DO_NOT_TOUCH
 
+EXPOSE $SSH_PORT
+
 WORKDIR $HOME
 
 ### Add all install scripts for further steps
@@ -67,9 +69,10 @@ ADD ./tux_emulator_linux $HOME/Desktop/tux_emulator
 RUN $INST_SCRIPTS/vscode_server.sh
 EXPOSE $VSCODE_SERVER_PORT
 
-# RUN $INST_SCRIPTS/build_kernel.sh
+# (FIXED) script corrupts kernel
+RUN $INST_SCRIPTS/build_kernel.sh
 
-# WORKDIR $HOME
+WORKDIR $HOME
 
 ENTRYPOINT ["/dockerstartup/startup.sh"]
 CMD ["--wait"]

@@ -69,8 +69,7 @@ ADD ./tux_emulator_linux $HOME/Desktop/tux_emulator
 RUN $INST_SCRIPTS/vscode_server.sh
 EXPOSE $VSCODE_SERVER_PORT
 
-# (FIX) script corrupts kernel
-# RUN $INST_SCRIPTS/build_kernel.sh
+RUN $INST_SCRIPTS/build_kernel.sh
 
 WORKDIR $HOME
 
